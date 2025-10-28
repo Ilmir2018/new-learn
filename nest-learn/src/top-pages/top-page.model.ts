@@ -1,6 +1,7 @@
 import { IAdvantages, IHh, TopLevelCategory } from "./top-page.interfaces";
 
 export class TopPageModel {
+	_id: string;
 	firstLevelCategory: TopLevelCategory;
 	secondCategory: string;
 	title: string;
