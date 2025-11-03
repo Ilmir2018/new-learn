@@ -1,16 +1,71 @@
-import { IAdvantages, IHh, TopLevelCategory } from "./top-page.interfaces";
-
-export class TopPageModel {
-	_id: string;
-	firstLevelCategory: TopLevelCategory;
-	secondCategory: string;
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import { TopLevelCategory } from './top-page.interfaces';
+@Schema({ _id: false })
+export class TopPageAdvantage {
+	@Prop()
 	title: string;
+
+	@Prop()
+	description: string;
+}
+
+export const TopPageAdvantageSchema = SchemaFactory.createForClass(TopPageAdvantage);
+
+@Schema({ _id: false })
+export class HhData {
+	@Prop()
+	count: number;
+
+	@Prop()
+	juniorSalary: number;
+
+	@Prop()
+	middleSalary: number;
+
+	@Prop()
+	seniorSalary: number;
+}
+
+export const HhDataSchema = SchemaFactory.createForClass(HhData);
+
+// Основная модель TopPage
+@Schema({ timestamps: true })
+export class TopPageModel extends Document {
+	@Prop({
+		type: Number,
+		enum: TopLevelCategory
+	})
+	firstLevelCategory: TopLevelCategory;
+
+	@Prop()
+	secondCategory: string;
+
+	@Prop({ unique: true })
+	alias: string;
+
+	@Prop()
+	title: string;
+
+	@Prop()
 	category: string;
-	hh?: IHh;
-	advantages: IAdvantages[];
+
+	@Prop({ type: HhDataSchema })
+	hh?: HhData;
+
+	@Prop({ type: [TopPageAdvantageSchema] })
+	advantages: TopPageAdvantage[];
+
+	@Prop()
 	seoText: string;
+
+	@Prop()
 	tagsTitle: string;
+
+	@Prop({ type: [String] })
 	tags: string[];
 }
 
+export const TopPageSchema = SchemaFactory.createForClass(TopPageModel);
 
+export type TopPageDocument = TopPageModel & Document;

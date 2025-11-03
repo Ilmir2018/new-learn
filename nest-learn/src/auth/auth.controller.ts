@@ -4,6 +4,7 @@ import { AuthDto } from './auth.dto';
 @Controller('auth')
 export class AuthController {
 
+	@HttpCode(201)
 	@Post('register')
 	async register(@Body() dto: AuthDto) {
 
