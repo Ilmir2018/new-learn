@@ -29,7 +29,7 @@ describe('ReviewsService', () => {
 		await app.init();
 	});
 
-	it('/reviews/create (POST)', async () => {
+	it('/reviews/create (POST) - success', async () => {
 		return request(app.getHttpServer())
 			.post('/reviews/create')
 			.send(testDto)
@@ -37,6 +37,16 @@ describe('ReviewsService', () => {
 			.then(({ body }: request.Response) => {
 				createdId = body._id;
 				expect(createdId).toBeDefined();
+			})
+	});
+
+	it('/reviews/create (POST) - fail', async () => {
+		return request(app.getHttpServer())
+			.post('/reviews/create')
+			.send({ ...testDto, rating: 0 })
+			.expect(400)
+			.then(({ body }: request.Response) => {
+				console.log(body);
 			})
 	});
 
