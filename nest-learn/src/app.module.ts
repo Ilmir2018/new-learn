@@ -19,7 +19,9 @@ import { APP_PIPE } from '@nestjs/core';
       inject: [ConfigService],
       useFactory: getMongoConfig
     }),
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
   ],
   providers: [
     {
