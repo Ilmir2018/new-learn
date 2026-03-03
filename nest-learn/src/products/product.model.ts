@@ -12,7 +12,7 @@ export class ProductCharacteristics {
 export const ProductCharacteristicsSchema = SchemaFactory.createForClass(ProductCharacteristics);
 
 @Schema({ timestamps: true })
-export class ProductModel extends Document {
+export class ProductModel {
 	@Prop()
 	image: string;
 
@@ -23,13 +23,10 @@ export class ProductModel extends Document {
 	price: number;
 
 	@Prop()
-	oldPrice: number;
+	oldPrice?: number;
 
 	@Prop()
 	credit: number;
-
-	@Prop()
-	calculatedRating: number;
 
 	@Prop()
 	description: string;
