@@ -30,6 +30,7 @@ export class HhData {
 export const HhDataSchema = SchemaFactory.createForClass(HhData);
 
 // Основная модель TopPage
+
 @Schema({ timestamps: true })
 export class TopPageModel extends Document {
 	@Prop({
@@ -44,7 +45,7 @@ export class TopPageModel extends Document {
 	@Prop({ unique: true })
 	alias: string;
 
-	@Prop()
+	@Prop({ text: true })
 	title: string;
 
 	@Prop()

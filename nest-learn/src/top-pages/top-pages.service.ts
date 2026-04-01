@@ -4,6 +4,7 @@ import { TopPageModel } from './top-page.model';
 import { Model } from 'mongoose';
 import { CreateTopPageDto } from './dto/create-top-page.dto';
 import { TopLevelCategory } from './top-page.interfaces';
+import { title } from 'process';
 
 @Injectable()
 export class TopPagesService {
@@ -15,11 +16,22 @@ export class TopPagesService {
 	}
 
 	async findById(id: string) {
-		return this.topPageModel.findById(id).exec();
+		return this.topPageModel.findById(id).exec()
 	}
 
 	async findByCategory(firstLevelCategory: TopLevelCategory) {
-		return this.topPageModel.find({ firstLevelCategory }, { alias: 1, secondCategory: 1, title: 1 }).exec();
+		return this.topPageModel.aggregate().match({
+			firstLevelCategory
+		}).group({
+			_id: {
+				secondCategory: '$secondCategory'
+			},
+			pages: { $push: { alias: '$alias', title: '$title' } }
+		}).exec();
+	}
+
+	async findByText(text: string) {
+		return this.topPageModel.find({ $text: { $search: text, $caseSensitive: false } }).exec();
 	}
 
 	async findByAlias(alias: string) {
